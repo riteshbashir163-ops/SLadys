@@ -70,6 +70,10 @@ if plens:
     spread = max(plens) - min(plens)
     check(f"段落长短参差(最短{min(plens)}/最长{max(plens)})", spread >= 40)
 
+# 9.5 "名词＋一＋动词"动作特写句（S姐原文为零，全篇禁止）
+punchy = re.findall(r'一[翻荡束闪甩抖撩掀]|拦腰一|斜斜一系|往身上一[套披罩]|一收尾', text)
+check(f"无动作特写句(一翻/一荡/一束/一闪等，实际{len(punchy)}处)", len(punchy) == 0, str(punchy) if punchy else "")
+
 # 10. 鞋履动词重复检查
 verbs = ['踩上一双', '再穿上一双', '脚下踩双', '脚上搭配', '再配一双', '配上一双', '换成一双', '蹬上一双']
 over = [f"{v}x{text.count(v)}" for v in verbs if text.count(v) > 2]
