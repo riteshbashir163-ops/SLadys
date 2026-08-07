@@ -42,8 +42,13 @@ check(f"标题15~25字(实际{tlen}): {title}", 15 <= tlen <= 25)
 first_img = text.find('【图')
 subhead_pos = [m.start() for m in re.finditer(r'\n#{2,3}\s|\n[^\n]{2,14}＋[^\n]{2,14}\n', text)]
 first_sub = min(subhead_pos) if subhead_pos else -1
-check("开篇无图（首个小标题前无【图】标记）", first_sub != -1 and first_img > first_sub,
-      f"first_img@{first_img}, first_subhead@{first_sub}")
+if first_sub != -1:
+    check("开篇无图（首个小标题前无【图】标记）", first_img > first_sub,
+          f"first_img@{first_img}, first_subhead@{first_sub}")
+else:
+    # 无分组结构：开篇 = 首个【图】之前的纯文字段，至少2段
+    opening_paras = [l for l in text[:first_img].split('\n') if l.strip() and not l.strip().startswith('>')]
+    check(f"开篇纯文字≥2段（无分组结构，实际{max(len(opening_paras)-1,0)}段）", len(opening_paras) >= 3)
 
 # 6. 左右式拆解禁令
 lr = [i+1 for i, l in enumerate(lines) if re.search(r'左边|右边|左侧|右侧', l)]
