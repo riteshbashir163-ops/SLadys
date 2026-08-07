@@ -74,6 +74,15 @@ if plens:
 punchy = re.findall(r'一[翻荡束闪甩抖撩掀]|拦腰一|斜斜一系|往身上一[套披罩]|一收尾', text)
 check(f"无动作特写句(一翻/一荡/一束/一闪等，实际{len(punchy)}处)", len(punchy) == 0, str(punchy) if punchy else "")
 
+# 9.6 图段短句定调开头（"度假就穿全白。"式，≤2处）
+img_paras = re.findall(r'\n\n([^\n]+)\n【图\d+】', text)
+short_openers = []
+for p in img_paras:
+    first = p.split('，')[0].split('。')[0]
+    if '。' in p[:14] and len(first) <= 12:
+        short_openers.append(first + '。')
+check(f"图段短句定调开头≤2处(实际{len(short_openers)})", len(short_openers) <= 2, str(short_openers) if len(short_openers) > 2 else "")
+
 # 10. 鞋履动词重复检查
 verbs = ['踩上一双', '再穿上一双', '脚下踩双', '脚上搭配', '再配一双', '配上一双', '换成一双', '蹬上一双']
 over = [f"{v}x{text.count(v)}" for v in verbs if text.count(v) > 2]
