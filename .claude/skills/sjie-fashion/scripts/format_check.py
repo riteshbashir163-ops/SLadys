@@ -88,6 +88,25 @@ for p in img_paras:
         short_openers.append(first + '。')
 check(f"图段短句定调开头≤2处(实际{len(short_openers)})", len(short_openers) <= 2, str(short_openers) if len(short_openers) > 2 else "")
 
+# 9.7 清点式图说：图段里"颜色+单品/量词+单品"锚点≥4，就是在报画面清单（S姐范文单段最多2~3个）
+ITEM = r'(?:衬衫|衬衣|上衣|短T|T恤|背心|吊带|针织|开衫|外套|西装|风衣|大衣|马甲|连衣裙|半裙|长裙|短裙|伞裙|裙|长裤|短裤|中裤|阔腿裤|牛仔裤|裤|凉鞋|猫跟|高跟|平底鞋|乐福鞋|玛丽珍|拖|靴|鞋|包|帽|头巾|丝巾|腰带|袜)'
+anchor = re.compile(r'一(?:只|双|条|件|顶|枚|袭|身)[^，。；：\n]{0,8}?' + ITEM
+                   + r'|(?:黑|白|红|蓝|绿|黄|紫|粉|灰|棕|驼|米|杏|裸|银|金|卡其|藏蓝|宝蓝|墨绿|薄荷|摩卡|香芋|酒红)(?:色|调|白|蓝|绿|紫)?系?的?[^，。；：\n]{0,4}?' + ITEM)
+marker_re = re.compile(r'\s*【图\d+】\s*')
+listy, seen_p = [], set()
+for i, l in enumerate(lines):
+    if marker_re.fullmatch(l):
+        j = i - 1
+        while j >= 0 and (not lines[j].strip() or marker_re.fullmatch(lines[j])):
+            j -= 1
+        if j < 0 or j in seen_p:
+            continue
+        seen_p.add(j)
+        n = len(list(anchor.finditer(lines[j])))
+        if n >= 4:
+            listy.append(f"行{j+1}({n}锚点)")
+check(f"无清点式图说(图段单品锚点≥4，实际{len(listy)}段)", not listy, str(listy) if listy else "")
+
 # 10. 鞋履动词重复检查
 verbs = ['踩上一双', '再穿上一双', '脚下踩双', '脚上搭配', '再配一双', '配上一双', '换成一双', '蹬上一双']
 over = [f"{v}x{text.count(v)}" for v in verbs if text.count(v) > 2]
