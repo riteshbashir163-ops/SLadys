@@ -112,6 +112,37 @@ verbs = ['踩上一双', '再穿上一双', '脚下踩双', '脚上搭配', '再
 over = [f"{v}x{text.count(v)}" for v in verbs if text.count(v) > 2]
 check("鞋履动词无超2次重复", not over, str(over) if over else "")
 
+# 11. 跨篇结构性重复：与同目录其他成品比对，纯汉字≥6字的同款片段（转轨句/装置外壳复用的证据）
+import os, glob
+def _hz(s):
+    return re.sub(r'[^一-鿿]', '', s)
+_body = re.sub(r'【图\d+】', '', text)
+_body = re.sub(r'^>.*$|^#.*$', '', _body, flags=re.M)
+_h = _hz(_body)
+_overlaps = []
+for _f in sorted(glob.glob(os.path.join(os.path.dirname(os.path.abspath(path)), '*.md'))):
+    if os.path.abspath(_f) == os.path.abspath(path):
+        continue
+    _ob = re.sub(r'【图\d+】', '', open(_f, encoding='utf-8').read())
+    _oh = _hz(re.sub(r'^>.*$|^#.*$', '', _ob, flags=re.M))
+    if not _oh:
+        continue
+    _runs, _i = [], 0
+    while _i < len(_h) - 5:
+        if _h[_i:_i+6] in _oh:
+            _j = _i + 6
+            while _j <= len(_h) and _h[_i:_j] in _oh:
+                _j += 1
+            _runs.append(_h[_i:_j-1])
+            _i = _j - 1
+        else:
+            _i += 1
+    _worst = max((len(r) for r in _runs), default=0)
+    if _worst >= 9 or len(_runs) >= 8:
+        _top = sorted(_runs, key=len, reverse=True)[:3]
+        _overlaps.append(f"{os.path.basename(_f)}({len(_runs)}处,最长{_worst}字:{_top})")
+check("跨篇无同款片段(≥9字重合或≥8处6字片段)", not _overlaps, ' | '.join(_overlaps) if _overlaps else "")
+
 print(f"{'PASS' if all(ok for _, ok, _ in results) else 'FAIL'}  {path}")
 for name, ok, ev in results:
     print(f"  [{'✓' if ok else '✗'}] {name}" + (f"  | {ev}" if ev and not ok else ""))
