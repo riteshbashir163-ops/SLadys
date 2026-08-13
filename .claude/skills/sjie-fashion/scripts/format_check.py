@@ -112,6 +112,12 @@ verbs = ['踩上一双', '再穿上一双', '脚下踩双', '脚上搭配', '再
 over = [f"{v}x{text.count(v)}" for v in verbs if text.count(v) > 2]
 check("鞋履动词无超2次重复", not over, str(over) if over else "")
 
+# 11. "一"字密度校准（S姐原文16.6/千字，目标带15~20，<10过度清扫、>25鼓点超标）
+plain = re.sub(r'【图\d+】', '', text)
+plain = re.sub(r'\s', '', plain)
+yi = plain.count('一') / max(len(plain), 1) * 1000
+check(f"'一'字密度10~25/千字(实际{yi:.1f}，目标带15~20)", 10 <= yi <= 25)
+
 print(f"{'PASS' if all(ok for _, ok, _ in results) else 'FAIL'}  {path}")
 for name, ok, ev in results:
     print(f"  [{'✓' if ok else '✗'}] {name}" + (f"  | {ev}" if ev and not ok else ""))
