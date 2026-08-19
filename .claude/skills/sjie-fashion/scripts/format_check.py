@@ -68,6 +68,10 @@ check("无AI腔黑名单词", not hits, str(hits) if hits else "")
 n_ganjue = len(re.findall(r'那种[^\n，。]{0,12}的感觉', text))
 check(f"'那种…的感觉'≤1次(实际{n_ganjue})", n_ganjue <= 1)
 
+# 4.5 一段一图：两个【图XX】不得相邻堆放（用户按每段一张图备图）
+stacked = [i+1 for i in range(1, len(lines)) if re.fullmatch(r'\s*【图\d+】\s*', lines[i]) and re.fullmatch(r'\s*【图\d+】\s*', lines[i-1])]
+check("【图XX】一段一图不并列", not stacked, f"相邻堆标于行 {stacked}" if stacked else "")
+
 # 9. 段落长短参差：正文文字段落字数的极差与方差
 paras = [l.strip() for l in lines if l.strip() and not re.fullmatch(r'\s*【图\d+】\s*', l) and not l.strip().startswith('#') and not l.strip().startswith('>')]
 plens = [len(p) for p in paras]
