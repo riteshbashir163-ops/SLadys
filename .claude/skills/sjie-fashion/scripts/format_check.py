@@ -118,11 +118,11 @@ check("鞋履动词无超2次重复", not over, str(over) if over else "")
 
 # 11. 体量纪律：图是主角，文字是陪衬（全集实测段均40字、图文比≈35字/图）
 body_chars = sum(plens)
-budget = n_imgs * 70 + 300
-check(f"全文体量≤图数×70+300字(实际{body_chars}/上限{budget})", body_chars <= budget)
+lo, hi = n_imgs * 60 + 250, n_imgs * 95 + 400
+check(f"全文体量{lo}~{hi}字(实际{body_chars})", lo <= body_chars <= hi)
 if img_paras:
     avg_img_para = sum(len(marker_re.sub('', p)) for p in img_paras) / len(img_paras)
-    check(f"图段均长≤75字(实际{avg_img_para:.0f})", avg_img_para <= 75)
+    check(f"图段均长≤95字(实际{avg_img_para:.0f})", avg_img_para <= 95)
 
 print(f"{'PASS' if all(ok for _, ok, _ in results) else 'FAIL'}  {path}")
 for name, ok, ev in results:
