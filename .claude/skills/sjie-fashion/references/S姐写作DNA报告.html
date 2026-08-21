@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S姐写作DNA深度分析报告</title>
+<style>
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --surface-alt: #f5f2ee;
+  --ink: #2c2c2a;
+  --ink-soft: #5f5e5a;
+  --ink-faint: #888780;
+  --line: #e2ddd5;
+  --accent: #7f77dd;
+  --accent-deep: #534ab7;
+  --accent-bg: #eeedfe;
+  --coral: #d85a30;
+  --coral-bg: #faece7;
+  --teal: #1d9e75;
+  --teal-bg: #e1f5ee;
+  --amber: #ba7517;
+  --amber-bg: #faeeda;
+  --pink: #d4537e;
+  --pink-bg: #fbeaf0;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page { max-width: 880px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* Hero */
+.hero {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  margin-bottom: 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--coral), var(--amber), var(--teal));
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--accent-bg);
+  color: var(--accent-deep);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.hero .subtitle {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hero-meta-item {
+  text-align: center;
+}
+.hero-meta-num {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--accent-deep);
+}
+.hero-meta-label {
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+/* Section */
+.section { margin-bottom: 36px; }
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.section-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--surface);
+}
+.section-title h2 {
+  font-size: 18px;
+  font-weight: 500;
+}
+.section-title .en {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-left: 8px;
+}
+
+/* Persona cards */
+.persona-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.persona-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}
+.persona-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.persona-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.persona-card h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.persona-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* DNA Helix */
+.dna-section {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 16px;
+}
+.dna-list { display: flex; flex-direction: column; gap: 14px; }
+.dna-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface-alt);
+}
+.dna-badge {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--surface);
+}
+.dna-content h4 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.dna-content p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.dna-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.dna-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+
+/* Word cloud */
+.word-cloud {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 16px;
+}
+.word-group { margin-bottom: 20px; }
+.word-group:last-child { margin-bottom: 0; }
+.word-group-title {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.word-group-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.word-chip {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* Sentence patterns */
+.pattern-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pattern-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  border-left: 3px solid var(--accent);
+}
+.pattern-item:nth-child(2) { border-left-color: var(--coral); }
+.pattern-item:nth-child(3) { border-left-color: var(--teal); }
+.pattern-item:nth-child(4) { border-left-color: var(--amber); }
+.pattern-item:nth-child(5) { border-left-color: var(--pink); }
+.pattern-item:nth-child(6) { border-left-color: var(--accent-deep); }
+.pattern-item:nth-child(7) { border-left-color: var(--coral); }
+.pattern-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.pattern-head h4 { font-size: 14px; font-weight: 500; }
+.pattern-head .freq {
+  font-size: 11px;
+  color: var(--ink-faint);
+  background: var(--surface-alt);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.pattern-example {
+  font-size: 13px;
+  color: var(--ink-soft);
+  background: var(--surface-alt);
+  padding: 10px 14px;
+  border-radius: 8px;
+  line-height: 1.6;
+  border-left: 2px solid var(--line);
+}
+.pattern-example::before {
+  content: "「";
+  color: var(--ink-faint);
+}
+.pattern-example::after {
+  content: "」";
+  color: var(--ink-faint);
+}
+
+/* Structure timeline */
+.structure-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 16px;
+}
+.flow-step {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+.flow-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: -8px;
+  width: 2px;
+  background: var(--line);
+}
+.flow-dot {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--surface);
+  z-index: 1;
+}
+.flow-body { padding-bottom: 20px; }
+.flow-body h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.flow-body p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+/* Tone bars */
+.tone-bars {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 16px;
+}
+.tone-row { margin-bottom: 16px; }
+.tone-row:last-child { margin-bottom: 0; }
+.tone-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.tone-label .val { font-weight: 500; }
+.tone-bar-bg {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--surface-alt);
+  overflow: hidden;
+}
+.tone-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+/* Summary card */
+.summary-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.summary-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--coral), var(--amber), var(--teal));
+}
+.summary-card .quote {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink);
+  max-width: 600px;
+  margin: 0 auto;
+}
+.summary-card .quote strong {
+  color: var(--accent-deep);
+}
+
+@media (max-width: 640px) {
+  .persona-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 20px; }
+  .hero-meta { gap: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Hero -->
+<div class="hero">
+  <span class="hero-tag">SLadys · 41篇全样本分析</span>
+  <h1>S姐写作DNA深度分析报告</h1>
+  <p class="subtitle">基于41篇真人文章 · 约73000字 · 逐篇精读系统提炼</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="hero-meta-num">41</div>
+      <div class="hero-meta-label">篇全样本文章</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-num">73K</div>
+      <div class="hero-meta-label">字精读分析</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-num">6</div>
+      <div class="hero-meta-label">维度拆解</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-num">8th</div>
+      <div class="hero-meta-label">Year 深耕时尚</div>
+    </div>
+  </div>
+</div>
+
+<!-- 1. 人设画像 -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num" style="background:var(--accent)">1</div>
+    <h2>人设画像</h2>
+    <span class="en">Persona</span>
+  </div>
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-icon" style="background:var(--accent-bg);color:var(--accent-deep)">S</div>
+      <h3>时尚引路人</h3>
+      <p>写穿搭从不止步于穿搭，借时尚外壳谈论生活态度。「为什么喜欢混搭？无非是喜欢换一种花样去生活工作的感觉。」</p>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon" style="background:var(--coral-bg);color:var(--coral)"></div>
+      <h3>生活哲学家</h3>
+      <p>把穿衣上升到独立与自信的自我修炼。「美绝不仅仅是胖瘦的区别，更是一种坦然自信的大方和热情。」</p>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon" style="background:var(--teal-bg);color:var(--teal)"></div>
+      <h3>赫本信徒</h3>
+      <p>至少8篇文章贯穿赫本，不蹭流量而是把赫本当作审美哲学的具象化身——克制、经典、不随波逐流。</p>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon" style="background:var(--amber-bg);color:var(--amber)"></div>
+      <h3>文化漫游者</h3>
+      <p>信手拈来杜拉斯《情人》、侯麦《春天的故事》、黑塞、泰戈尔、Dieter Rams设计十诫，融入骨血的审美素养。</p>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon" style="background:var(--pink-bg);color:var(--pink)"></div>
+      <h3>知心姐姐</h3>
+      <p>「Hi~是你们的S姐来了~」，亲昵不谄媚。称呼读者为姐妹们、集美、宝宝们，有邻家姐姐的温暖。</p>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon" style="background:var(--accent-bg);color:var(--accent-deep)"></div>
+      <h3>独立女性</h3>
+      <p>鼓励女性不被年龄定义：「即便一个女人老了，她还是保有用红色点亮自己的权力，这份权力怎样用都是恰当的。」</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2. 写作特点 -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num" style="background:var(--coral)">2</div>
+    <h2>写作特点</h2>
+    <span class="en">Writing DNA · 六脉神剑</span>
+  </div>
+  <div class="dna-section">
+    <div class="dna-list">
+      <div class="dna-item">
+        <div class="dna-badge" style="background:var(--accent)">1</div>
+        <div class="dna-content">
+          <h4>主题先行，哲思开篇</h4>
+          <p>几乎从不在开头直接讲单品，开篇永远是关于生活、美、自我认知的思考，让读者先被审美哲学氛围包裹。</p>
+          <div class="dna-tags">
+            <span class="dna-tag">灵魂命题</span>
+            <span class="dna-tag">情感认同</span>
+            <span class="dna-tag">不急于推销</span>
+          </div>
+        </div>
+      </div>
+      <div class="dna-item">
+        <div class="dna-badge" style="background:var(--coral)">2</div>
+        <div class="dna-content">
+          <h4>文化典故「嵌入」而非「贴金」</h4>
+          <p>引用电影、文学时不生硬插入背景介绍，而是把典故编织进穿搭叙事的肌理里——典故和主题是同源的。</p>
+          <div class="dna-tags">
+            <span class="dna-tag">赫本</span>
+            <span class="dna-tag">杜拉斯</span>
+            <span class="dna-tag">侯麦</span>
+            <span class="dna-tag">黑塞</span>
+          </div>
+        </div>
+      </div>
+      <div class="dna-item">
+        <div class="dna-badge" style="background:var(--teal)">3</div>
+        <div class="dna-content">
+          <h4>通感隐喻——跨感官写穿搭</h4>
+          <p>把视觉、触觉、嗅觉、味觉混搭，产生立体的可感知阅读体验，是S姐最独特不可替代的语言特征。</p>
+          <div class="dna-tags">
+            <span class="dna-tag">冰淇淋色→味觉</span>
+            <span class="dna-tag">木质调香水→嗅觉</span>
+            <span class="dna-tag">绒毛光泽→触觉</span>
+          </div>
+        </div>
+      </div>
+      <div class="dna-item">
+        <div class="dna-badge" style="background:var(--amber)">4</div>
+        <div class="dna-content">
+          <h4>反差论证——制造风格张力</h4>
+          <p>几乎每组搭配都遵循「反差互补」逻辑：两件单品气质相反，碰撞后反而和谐。美来自于平衡，平衡来自于对立面的共存。</p>
+          <div class="dna-tags">
+            <span class="dna-tag">硬朗vs柔软</span>
+            <span class="dna-tag">正统vs休闲</span>
+            <span class="dna-tag">中性vs女性化</span>
+          </div>
+        </div>
+      </div>
+      <div class="dna-item">
+        <div class="dna-badge" style="background:var(--pink)">5</div>
+        <div class="dna-content">
+          <h4>分类拆解——信息结构化</h4>
+          <p>编号+小标题+场景分类，把复杂信息层次清晰地拆解。按颜色/单品/身材/风格/季节多维度灵活组织。</p>
+          <div class="dna-tags">
+            <span class="dna-tag">01/02/03编号</span>
+            <span class="dna-tag">NO/YES对比</span>
+            <span class="dna-tag">多维度并行</span>
+          </div>
+        </div>
+      </div>
+      <div class="dna-item">
+        <div class="dna-badge" style="background:var(--accent-deep)">6</div>
+        <div class="dna-content">
+          <h4>场景化收尾——散文质感的余韵</h4>
+          <p>从不在结尾简单总结，收尾永远是有画面感、有情绪的句子，把穿搭文章提升到散文/随笔的质感。</p>
+          <div class="dna-tags">
+            <span class="dna-tag">意象升华</span>
+            <span class="dna-tag">情感落点</span>
+            <span class="dna-tag">余韵悠长</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. 用词偏好 -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num" style="background:var(--teal)">3</div>
+    <h2>用词偏好</h2>
+    <span class="en">Vocabulary fingerprint</span>
+  </div>
+  <div class="word-cloud">
+    <div class="word-group">
+      <div class="word-group-title"><span class="word-group-dot" style="background:var(--accent)"></span>气质类形容词</div>
+      <div class="words">
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">优雅</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">高级</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">浪漫</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">时髦</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">慵懒</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">松弛</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">知性</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">文雅</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">贵气</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">别致</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">俏丽</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">经典</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">纯粹</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">通透</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">沉静</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">疏离</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">矜贵</span>
+        <span class="word-chip" style="background:var(--accent-bg);color:var(--accent-deep)">轻盈</span>
+      </div>
+    </div>
+    <div class="word-group">
+      <div class="word-group-title"><span class="word-group-dot" style="background:var(--coral)"></span>标志性词汇（S姐独家高频）</div>
+      <div class="words">
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">松弛</span>
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">慵懒</span>
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">恰好</span>
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">恰到好处</span>
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">不争不抢</span>
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">不急不徐</span>
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">不费力的美</span>
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">反而</span>
+        <span class="word-chip" style="background:var(--coral-bg);color:var(--coral)">正好可以</span>
+      </div>
+    </div>
+    <div class="word-group">
+      <div class="word-group-title"><span class="word-group-dot" style="background:var(--amber)"></span>个人化口吻</div>
+      <div class="words">
+        <span class="word-chip" style="background:var(--amber-bg);color:var(--amber)">S姐发现</span>
+        <span class="word-chip" style="background:var(--amber-bg);color:var(--amber)">S姐觉得</span>
+        <span class="word-chip" style="background:var(--amber-bg);color:var(--amber)">S姐比较偏爱</span>
+        <span class="word-chip" style="background:var(--amber-bg);color:var(--amber)">不妨试试</span>
+        <span class="word-chip" style="background:var(--amber-bg);color:var(--amber)">不如换一件</span>
+        <span class="word-chip" style="background:var(--amber-bg);color:var(--amber)">何不尝试</span>
+      </div>
+    </div>
+    <div class="word-group">
+      <div class="word-group-title"><span class="word-group-dot" style="background:var(--pink)"></span>中英混搭词</div>
+      <div class="words">
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">look</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">chic</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">oversized</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">crop top</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">all white</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">easy chic</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">hold住</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">踩雷</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">抄作业</span>
+        <span class="word-chip" style="background:var(--pink-bg);color:var(--pink)">妥妥的</span>
+      </div>
+    </div>
+    <div class="word-group">
+      <div class="word-group-title"><span class="word-group-dot" style="background:var(--teal)"></span>文化典故词库</div>
+      <div class="words">
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">赫本</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">法国博主</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">杜拉斯</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">侯麦</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">欧容</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">黑塞</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">泰戈尔</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">Dieter Rams</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">Lemaire</span>
+        <span class="word-chip" style="background:var(--teal-bg);color:var(--teal)">Chanel</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. 句式习惯 -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num" style="background:var(--amber)">4</div>
+    <h2>句式习惯</h2>
+    <span class="en">Sentence patterns</span>
+  </div>
+  <div class="pattern-list">
+    <div class="pattern-item">
+      <div class="pattern-head">
+        <h4>长短句交替的呼吸节奏</h4>
+        <span class="freq">高频</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-bottom:8px">先用1-2个长句铺陈观点或场景，然后用一个短句点睛收束。</p>
+      <div class="pattern-example">灯芯绒那层绒毛的光泽度是温暖而又贵气的，但绝不到富贵奢华的地步。但比起它的优势，这点可以忽略的小落差，真的不必太纠结。</div>
+    </div>
+    <div class="pattern-item">
+      <div class="pattern-head">
+        <h4>「不是A，而是B」否定递进</h4>
+        <span class="freq">高频</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-bottom:8px">打破认知惯性，用否定+递进制造观点的锋利感。</p>
+      <div class="pattern-example">与其说是潮流选择了白背心，不如说是女性自己定了白背心潮流。</div>
+    </div>
+    <div class="pattern-item">
+      <div class="pattern-head">
+        <h4>排比句的氛围渲染</h4>
+        <span class="freq">中频</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-bottom:8px">不是干巴巴的列举，而是有情绪递进的氛围渲染。</p>
+      <div class="pattern-example">从天空到大海，从艺术到影视，从服装到建筑，哪一处都不可以缺少它的身影。</div>
+    </div>
+    <div class="pattern-item">
+      <div class="pattern-head">
+        <h4>反问句+设问句的情感推进</h4>
+        <span class="freq">中频</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-bottom:8px">用反问和设问推进情感和逻辑，制造对话感。</p>
+      <div class="pattern-example">谁说雨衣很土？明明也很时髦！</div>
+    </div>
+    <div class="pattern-item">
+      <div class="pattern-head">
+        <h4>破折号/冒号引导的即时解释</h4>
+        <span class="freq">高频</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-bottom:8px">频繁使用破折号和冒号做即时解释，制造「边说边补充」的对话感。</p>
+      <div class="pattern-example">老爹裤——长到遮住脚面，腰部有褶皱，外加保守的颜色，以及裤筒的宽松感。</div>
+    </div>
+    <div class="pattern-item">
+      <div class="pattern-head">
+        <h4>条件句式给建议</h4>
+        <span class="freq">高频</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-bottom:8px">大量使用条件句来给出具体建议，实用+灵活。</p>
+      <div class="pattern-example">如果觉得H型的小黑裙过于克制，也可以选择一些浪漫主义设计的边角料。</div>
+    </div>
+    <div class="pattern-item">
+      <div class="pattern-head">
+        <h4>个人化口吻「S姐发现/觉得」</h4>
+        <span class="freq">高频</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-bottom:8px">第一人称观点表达，个人经验式而非绝对真理。</p>
+      <div class="pattern-example">不知道从什么时候开始，S姐发现女人真的很喜欢红色和粉色。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. 结构特点 -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num" style="background:var(--pink)">5</div>
+    <h2>结构特点</h2>
+    <span class="en">Article structure</span>
+  </div>
+  <div class="dna-section">
+    <h4 style="font-size:14px;font-weight:500;margin-bottom:16px">经典五段式结构</h4>
+    <div class="structure-flow">
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--accent)">1</div>
+        <div class="flow-body">
+          <h4>开篇引子 · 哲思/情感引入</h4>
+          <p>1-3段，从生活态度或审美哲学切入，不急于讲单品</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--coral)">2</div>
+        <div class="flow-body">
+          <h4>核心论点 · 为什么值得讨论</h4>
+          <p>建立单品/颜色与女性审美的深层关联</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--teal)">3</div>
+        <div class="flow-body">
+          <h4>分类拆解 · 01/02/03 小标题</h4>
+          <p>按品类/配色/身材/风格多维度拆解具体搭配方案</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--amber)">4</div>
+        <div class="flow-body">
+          <h4>实操建议 · 身材适配/配色/细节</h4>
+          <p>给出针对不同身材、肤色的具体选择建议</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--pink)">5</div>
+        <div class="flow-body">
+          <h4>情感收尾 · 一句有画面感的升华</h4>
+          <p>结尾不是总结而是余韵，把穿搭提升到散文质感</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 6. 语气风格 -->
+<div class="section">
+  <div class="section-title">
+    <div class="section-num" style="background:var(--accent-deep)">6</div>
+    <h2>语气风格</h2>
+    <span class="en">Tone &amp; voice</span>
+  </div>
+  <div class="tone-bars">
+    <div class="tone-row">
+      <div class="tone-label"><span>温润知性</span><span class="val" style="color:var(--accent-deep)">95%</span></div>
+      <div class="tone-bar-bg"><div class="tone-bar-fill" style="width:95%;background:var(--accent)"></div></div>
+    </div>
+    <div class="tone-row">
+      <div class="tone-label"><span>松弛有度</span><span class="val" style="color:var(--accent-deep)">90%</span></div>
+      <div class="tone-bar-bg"><div class="tone-bar-fill" style="width:90%;background:var(--teal)"></div></div>
+    </div>
+    <div class="tone-row">
+      <div class="tone-label"><span>笃定专业</span><span class="val" style="color:var(--accent-deep)">85%</span></div>
+      <div class="tone-bar-bg"><div class="tone-bar-fill" style="width:85%;background:var(--coral)"></div></div>
+    </div>
+    <div class="tone-row">
+      <div class="tone-label"><span>克制深情</span><span class="val" style="color:var(--accent-deep)">80%</span></div>
+      <div class="tone-bar-bg"><div class="tone-bar-fill" style="width:80%;background:var(--pink)"></div></div>
+    </div>
+    <div class="tone-row">
+      <div class="tone-label"><span>画面感</span><span class="val" style="color:var(--accent-deep)">88%</span></div>
+      <div class="tone-bar-bg"><div class="tone-bar-fill" style="width:88%;background:var(--amber)"></div></div>
+    </div>
+    <div class="tone-row">
+      <div class="tone-label"><span>轻幽默（自嘲）</span><span class="val" style="color:var(--accent-deep)">30%</span></div>
+      <div class="tone-bar-bg"><div class="tone-bar-fill" style="width:30%;background:var(--ink-faint)"></div></div>
+    </div>
+  </div>
+  <div class="dna-section">
+    <div class="dna-list">
+      <div class="dna-item" style="border-left:3px solid var(--accent)">
+        <div class="dna-content">
+          <h4>建议而非命令，启发而非灌输</h4>
+          <p>「不妨试试」「何不尝试」「不如换一件」——邀请式。关键处给明确倾向但保留选择空间：「S姐最后给大家一个方法」「根据自己喜好来选」。</p>
+        </div>
+      </div>
+      <div class="dna-item" style="border-left:3px solid var(--coral)">
+        <div class="dna-content">
+          <h4>克制中见深情</h4>
+          <p>不煽情说「赫本太美了」，而是「赫本是有沉静力量的女性……好像世间的一切嘈杂和烦闷，都成了树荫下被折射出来的细碎光芒」——深情藏在意象里。</p>
+        </div>
+      </div>
+      <div class="dna-item" style="border-left:3px solid var(--teal)">
+        <div class="dna-content">
+          <h4>文字的视觉化能力</h4>
+          <p>不用文字描述衣服，而是用文字构建场景：「搭配一头浪漫的长卷发，疏疏懒懒的味道就出来了。」即使没有图片，也能在读者脑海中成像。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="summary-card">
+  <div class="hero-tag" style="margin-bottom:16px">一句话概括S姐的写作DNA</div>
+  <p class="quote">
+    她用<strong>散文的质感</strong>写穿搭，用<strong>文化典故</strong>做底层注释，用<strong>通感隐喻</strong>让文字可触摸，用<strong>反差论证</strong>搭建审美逻辑，用<strong>温润笃定的个人口吻</strong>建立信任，最终让读者在获得实用信息的同时，完成一次审美层面的自我对话。
+  </p>
+</div>
+
+</div>
+</body>
+</html>
